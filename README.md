@@ -6,10 +6,6 @@ Deepfake Detector is a simple and efficient web-based application designed to de
 
 Built using Python , Flask , and Piexif , this tool serves as a lightweight forensic utility that highlights missing metadata—often a telltale sign of manipulated or generated images.
 
-🌐 Live Demo
-
-Coming Soon (optional: host on [Render](https://render.com) or [Replit](https://replit.com))
-
  🔍 Features
 
 - 📂 Upload image from your device
