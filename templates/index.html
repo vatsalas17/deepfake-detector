@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Deepfake Detector</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: white;
+            color: black;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #007BFF; /* Bootstrap Blue */
+            color: white;
+            padding: 20px 30px;
+            text-align: center;
+            font-size: 1.8em;
+            font-weight: bold;
+            letter-spacing: 1.2px;
+        }
+        main {
+            max-width: 700px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+        h2 {
+            color: #007BFF;
+            border-bottom: 2px solid #007BFF;
+            padding-bottom: 8px;
+            margin-bottom: 20px;
+        }
+        p.intro {
+            font-size: 1.1em;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+        form {
+            border: 1px solid #ddd;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            background-color: #f9f9f9;
+        }
+        input[type="file"] {
+            display: block;
+            margin-bottom: 15px;
+            font-size: 1em;
+        }
+        button {
+            background-color: #007BFF;
+            border: none;
+            color: white;
+            padding: 12px 25px;
+            font-size: 1em;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 30px;
+            padding: 20px;
+            border-radius: 8px;
+            font-size: 1.2em;
+            font-weight: 600;
+            max-width: 100%;
+            word-wrap: break-word;
+        }
+        .result.real {
+            color: #155724;
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+        }
+        .result.fake {
+            color: #721c24;
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+        }
+        /* Metadata table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 30px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #007BFF;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <header>Deepfake Detector</header>
+    <main>
+        <h2>Welcome to Your Deepfake Detector</h2>
+        <p class="intro">
+            Upload an image below and the system will analyze its metadata to detect if the image is <strong>REAL</strong> or <strong>FAKE</strong>.
+        </p>
+
+        <form action="/" method="post" enctype="multipart/form-data">
+            <input type="file" name="image" accept="image/*" required />
+            <button type="submit">Analyze Image</button>
+        </form>
+
+        {% if result %}
+        <div class="result {% if result == 'REAL' %}real{% else %}fake{% endif %}">
+            Detection Result: <strong>{{ result }}</strong>
+        </div>
+        {% endif %}
+
+        {% if metadata %}
+            <h2>Image Metadata</h2>
+            {% for ifd, tags in metadata.items() %}
+                <h3>{{ ifd }}</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Tag Name</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for tag, value in tags.items() %}
+                        <tr>
+                            <td>{{ tag }}</td>
+                            <td>{{ value }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% endfor %}
+        {% endif %}
+    </main>
+</body>
+</html>
